@@ -1,6 +1,12 @@
 ﻿#include <iostream>
 
-class Triangle // Базовый класс для треугольника
+class Figure
+{
+public:
+    virtual void print_info()const {};
+};
+
+class Triangle : public Figure // Базовый класс для треугольника
 {
 protected:
     double a, b, c;
@@ -17,6 +23,14 @@ public:
     double get_C() const { return C; }
 
     virtual std::string get_type() const { return "Треугольник"; }
+
+    void print_info()const override
+    {
+        std::cout << get_type() << ":" << std::endl;
+        std::cout << "Стороны: a=" << get_a() << " b=" << get_b() << " c=" << get_c() << std::endl;
+        std::cout << "Углы: A=" << get_A() << " B=" << get_B() << " C=" << get_C() << std::endl;
+        std::cout << std::endl;
+    }
 };
 
 class RightTriangle : public Triangle // Прямоугольный треугольник (угол C = 90)
@@ -47,7 +61,7 @@ public:
     std::string get_type() const override { return "Равносторонний треугольник"; }
 };
 
-class Quadrilateral // Базовый класс для четырёхугольника
+class Quadrilateral : public Figure // Базовый класс для четырёхугольника
 {
 protected:
     double a, b, c, d;
@@ -68,6 +82,14 @@ public:
     double get_D() const { return D; }
 
     virtual std::string get_type() const { return "Четырёхугольник"; }
+
+    void print_info()const override
+    {
+        std::cout << get_type() << ":" << std::endl;
+        std::cout << "Стороны: a=" << get_a() << " b=" << get_b() << " c=" << get_c() << std::endl;
+        std::cout << "Углы: A=" << get_A() << " B=" << get_B() << " C=" << get_C() << std::endl;
+        std::cout << std::endl;
+    }
 };
 
 class Parallelogram : public Quadrilateral // Параллелограмм (a = c, b = d, A = C, B = D)
@@ -109,20 +131,9 @@ public:
     std::string get_type() const override { return "Ромб"; }
 };
 
-void print_info_three(Triangle* base)
+void print_figure(Figure* base)
 {
-    std::cout << base->get_type() << ":" << std::endl;
-    std::cout << "Стороны: a=" << base->get_a() << " b=" << base->get_b() << " c=" << base->get_c() << std::endl;
-    std::cout << "Углы: A=" << base->get_A() << " B=" << base->get_B() << " C=" << base->get_C() << std::endl;
-    std::cout << std::endl;
-}
-
-void print_info_four(Quadrilateral* base)
-{
-    std::cout << base->get_type() << ":" << std::endl;
-    std::cout << "Стороны: a=" << base->get_a() << " b=" << base->get_b() << " c=" << base->get_c() << " d=" << base->get_d() << std::endl;
-    std::cout << "Углы: A=" << base->get_A() << " B=" << base->get_B() << " C=" << base->get_C() << " D=" << base->get_D() << std::endl;
-    std::cout << std::endl;
+    base->print_info();
 }
 
 
@@ -140,16 +151,16 @@ int main()
     Parallelogram parallelogram(20, 30, 30, 40);
     Rhombus rhombus(30, 30, 40);
 
-    print_info_three(&triangle);
-    print_info_three(&right_triangle);
-    print_info_three(&isosceles_triangle);
-    print_info_three(&equilateral_triangle);
+    print_figure(&triangle);
+    print_figure(&right_triangle);
+    print_figure(&isosceles_triangle);
+    print_figure(&equilateral_triangle);
 
-    print_info_four(&quadrilateral);
-    print_info_four(&rectangle);
-    print_info_four(&square);
-    print_info_four(&parallelogram);
-    print_info_four(&rhombus);
+    print_figure(&quadrilateral);
+    print_figure(&rectangle);
+    print_figure(&square);
+    print_figure(&parallelogram);
+    print_figure(&rhombus);
 
     return EXIT_SUCCESS;
 }
